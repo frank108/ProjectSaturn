@@ -3,9 +3,12 @@ using System.Collections;
 
 public class Teleporter : MonoBehaviour
 {
-    void OnTriggerExit(Collider other)
+    public GameObject Destination;
+    void OnTriggerEnter(Collider other)
     {
-        other.transform.position = new Vector3(-63, 10, 0);
-        print("Tele");
+        if (other.gameObject.tag == "Player")
+        {
+            other.transform.position = Destination.transform.position;
+        }
     }
 }

@@ -46,6 +46,10 @@ public class DestroyByWall : MonoBehaviour
             Destroy(this.gameObject);
             Instantiate(explosion, transform.position, transform.rotation);
         }
+        else if (other.tag == "Shield")
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
 
