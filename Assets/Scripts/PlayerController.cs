@@ -29,12 +29,18 @@ public class PlayerController : MonoBehaviour
     public GameObject missle;
     public GameObject sword;
     public GameObject bomb;
+    public GameObject blaster;
+    public GameObject launcher;
+    public GameObject heldblade;
+    public GameObject heldbomb;
+    public GameObject mountpoint;
 
     public Transform shotSpawn;
     public float fireRate;
 
     private float nextFire;
     private AudioSource audioSource;
+    private GameObject currentweapon;
 
     private WeaponSelection weaponSelection = WeaponSelection.Bullet;
 
@@ -49,30 +55,58 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            if (weaponSelection != WeaponSelection.Bullet)
+            {
+                var blaster = Instantiate(this.blaster, this.mountpoint.gameObject.transform.position, transform.rotation, this.mountpoint.gameObject.transform) as GameObject;
+                Destroy(currentweapon);
+                currentweapon = blaster;
+            }
             weaponSelection = WeaponSelection.Bullet;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) && GameController.Handler.HasRocketLauncher) 
         {
-            weaponSelection = WeaponSelection.Missle;
+            if (weaponSelection != WeaponSelection.Missle)
+            {
+                var launcher = Instantiate(this.launcher, transform.position, transform.rotation, this.gameObject.transform) as GameObject;
+                Destroy(currentweapon);
+                currentweapon = launcher;
+            }
+            weaponSelection = WeaponSelection.Missle; 
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            if (weaponSelection != WeaponSelection.Sword)
+            {
+                var heldbladeinstance = Instantiate(this.heldblade, transform.position, transform.rotation, this.gameObject.transform) as GameObject;
+                Destroy(currentweapon);
+                currentweapon = heldbladeinstance;
+            }
             weaponSelection = WeaponSelection.Sword;
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
+            if (weaponSelection != WeaponSelection.Bomb)
+            {
+                var heldbombinstance = Instantiate(this.heldbomb, transform.position, transform.rotation, this.gameObject.transform) as GameObject;
+                Destroy(currentweapon);
+                currentweapon = heldbombinstance;
+            }
             weaponSelection = WeaponSelection.Bomb;
         }
 
-
+        //@todo why isn't this acutally changing the mountpoint transform?
+        //@todo why isn't this acutally changing the mountpoint transform?
+        //@todo why isn't this acutally changing the mountpoint transform?
         var rb = GetComponent<Rigidbody>();
         if (rb.velocity.x > 0)
         {
             GetComponent<SpriteRenderer>().flipX = false;
+            this.mountpoint.transform.position.Set(3, 0.12f, 0);
         }
         else if (rb.velocity.x < 0)
         {
             GetComponent<SpriteRenderer>().flipX = true;
+            this.mountpoint.transform.position.Set(-3, -0.12f, 0);
         }
 
         if (Input.GetButton("Fire1") && Time.time > nextFire)
