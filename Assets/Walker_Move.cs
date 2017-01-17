@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Mover : MonoBehaviour
+public class Walker_Move : MonoBehaviour
 {
     private Rigidbody rb;
 
@@ -9,6 +9,7 @@ public class Mover : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(ExecuteAfterTime(3));
         rb = GetComponent<Rigidbody>();
         ////rb.velocity = transform.forward * speed;
         //var vel = new Vector3(1, 0, 0);
@@ -23,5 +24,16 @@ public class Mover : MonoBehaviour
         {
             rb.velocity = rb.velocity * speed;
         }
+    }
+
+    IEnumerator ExecuteAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Code to execute after the delay
+        print("Change");
+
+        rb.velocity = rb.velocity * -1;
+        StartCoroutine(ExecuteAfterTime(3));
     }
 }

@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public GameObject launcher;
     public GameObject heldblade;
     public GameObject heldbomb;
-    public GameObject mountpoint;
+    public Transform mountpoint;
 
     public Transform shotSpawn;
     public float fireRate;
@@ -101,12 +101,14 @@ public class PlayerController : MonoBehaviour
         if (rb.velocity.x > 0)
         {
             GetComponent<SpriteRenderer>().flipX = false;
-            this.mountpoint.transform.position.Set(3, 0.12f, 0);
+            this.currentweapon.GetComponent<SpriteRenderer>().flipX = false;
+            this.mountpoint.localPosition = new Vector3(3, 0.12f, 0);
         }
         else if (rb.velocity.x < 0)
         {
             GetComponent<SpriteRenderer>().flipX = true;
-            this.mountpoint.transform.position.Set(-3, -0.12f, 0);
+            this.currentweapon.GetComponent<SpriteRenderer>().flipX = true;
+            this.mountpoint.localPosition = new Vector3(-3, 0.12f, 0);
         }
 
         if (Input.GetButton("Fire1") && Time.time > nextFire)
